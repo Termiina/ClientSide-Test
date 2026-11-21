@@ -1,0 +1,27 @@
+<button type="button" onclick="alert('I see you clicked me!!!')">Click here!</button>
+<button onclick="colorSwap(this)">
+    Click Me
+</button>
+
+<script>
+function colorSwap(button) {
+    if (button.style.backgroundColor === "green") {
+        button.style.backgroundColor = "purple";
+    } else {
+        button.style.backgroundColor = "green";
+    }
+}
+</script>
+<input type="text" id="userInput">
+
+<p id="displayText"></p>
+
+<script>
+const input = document.getElementById("userInput");
+const display = document.getElementById("displayText");
+
+input.addEventListener("input", function() {
+    display.textContent = input.value;
+    display.style.fontSize = "50px";
+});
+</script>

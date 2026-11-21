@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Week 7 – Starter</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    body { font-family: sans-serif; margin: 24px; }
+  </style>
+</head>
+<body>
+  <h2>My chart</h2>
+  <div id="chart"></div>
+
+  <script>
+    // Open this file directly in Chrome (double-click). No server needed:
+    // the data lives in the file, so there is no d3.csv() / CORS problem.
+    // Open DevTools (Cmd+Option+J / Ctrl+Shift+J) to see errors and console.log.
+
+    const data = [
+      { day: "Mon", hours: 6.5 },
+      { day: "Tue", hours: 7.2 },
+      { day: "Wed", hours: 5.8 },
+      { day: "Thu", hours: 6.9 },
+      { day: "Fri", hours: 8.1 },
+      { day: "Sat", hours: 9.3 },
+      { day: "Sun", hours: 8.4 }
+    ];
+
+    console.log(data);
+
+    const g = d3.select("#chart").append("svg").attr("width", 500).attr("height", 300).append("g");
+
+    g.append('g')
+      .attr('transform', 'translate(0, 250)')
+      .call(d3.axisBottom(d3.scaleBand().domain(data.map(d => d.day)).range([0, 500])));
+  </script>
+</body>
+</html>

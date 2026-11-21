@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Week 7 – Your Mini D3 Visualization</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    body { font-family: sans-serif; margin: 24px; }
+  </style>
+</head>
+<body>
+  <h2>TODO: a title that says what the chart shows</h2>
+  <p>Name: ________</p>
+  <div id="chart"></div>
+
+  <script>
+    // =====================================================================
+    // In-class task (20–30 min): design your own mini D3 visualization.
+    // Open this file directly in Chrome. Keep DevTools open for errors.
+    //
+    // MUST HAVE
+    //   [ ] a data join: selectAll(...).data(...).join(...)
+    //   [ ] at least one scale (scaleLinear / scaleBand / scaleSqrt / ...)
+    //   [ ] an axis OR text labels so a viewer can read the values
+    //   [ ] one encoding beyond position (color, size, opacity, shape ...)
+    //   [ ] one interaction OR transition (hover, click, button, sort ...)
+    //
+    // YOUR DESIGN CHOICE: chart type, layout, color, interaction.
+    // Use what you learned in Week 6 about color!
+    // =====================================================================
+
+    // ---- Pick ONE dataset (delete the others), or type in your own ----
+
+    // A) Philadelphia average monthly high temperature (°F, approximate)
+    const phillyTemp = [
+      { month: "Jan", high: 41 }, { month: "Feb", high: 44 },
+      { month: "Mar", high: 53 }, { month: "Apr", high: 65 },
+      { month: "May", high: 75 }, { month: "Jun", high: 84 },
+      { month: "Jul", high: 88 }, { month: "Aug", high: 86 },
+      { month: "Sep", high: 79 }, { month: "Oct", high: 68 },
+      { month: "Nov", high: 57 }, { month: "Dec", high: 46 }
+    ];
+
+    // B) Planets: diameter (km) and number of known moons (approximate)
+    const planets = [
+      { name: "Mercury", diameter: 4879,   moons: 0 },
+      { name: "Venus",   diameter: 12104,  moons: 0 },
+      { name: "Earth",   diameter: 12756,  moons: 1 },
+      { name: "Mars",    diameter: 6792,   moons: 2 },
+      { name: "Jupiter", diameter: 142984, moons: 95 },
+      { name: "Saturn",  diameter: 120536, moons: 146 },
+      { name: "Uranus",  diameter: 51118,  moons: 28 },
+      { name: "Neptune", diameter: 49528,  moons: 16 }
+    ];
+
+    // C) Your own: ask 5–8 classmates something (e.g. minutes of commute,
+    //    cups of coffee per week) and type the answers in here.
+    const myData = [
+      { label: "A", value: 10 },
+      { label: "B", value: 25 },
+      { label: "C", value: 15 }
+    ];
+
+    const data = phillyTemp;   // <-- change this
+    console.log(data);
+
+    // ---- Canvas (keep or change) ----
+    const width = 700, height = 400;
+    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+    const innerW = width - margin.left - margin.right;
+    const innerH = height - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // ---- TODO 1: scales ----
+
+    // ---- TODO 2: data join -> marks ----
+
+    // ---- TODO 3: axes or labels ----
+
+    // ---- TODO 4: interaction or transition ----
+
+  </script>
+</body>
+</html>

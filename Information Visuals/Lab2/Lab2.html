@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Justin Bradshaw</title>
+</head>
+
+<body>
+    <h1>This is a webpage, consisting of a few facts about me.</h1>
+    <ul>
+        <li>I am 21 years old</li>
+        <li>I am a senior at Temple University</li>
+        <li>I am majoring in Information Science and Technology</li>
+    </ul>
+    <p>The pets I've had in my life, in order, are:</p>
+    <ol>
+        <li>Nemo the Fish (I was unoriginal as a 6 year old)</li>
+        <li>3 unnamed fish</li>
+        <li>Mushu The Tuxedo Cat</li>
+    </ol>
+    <h2>Here is a picture of one of my favorite Pokemon, Corviknight</h2>
+    <img src="Corviknight.jpg" alt="Corviknight" width="500" height="500">
+    <a href="https://pokemondb.net/pokedex/corviknight">Click here to learn more about Corviknight! He's the goat</a>
+
+    <p><a href="style.css">Click here to see the CSS file for this page</a></p>
+    
+    <h3>Because I like Pokemon alot, here is a table of a few of my favorites:</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Ability</th>
+        </tr>
+        <tr>
+            <td>Corviknight</td>
+            <td>Flying/Steel</td>
+            <td>Pressure</td>
+        </tr>
+        <tr>
+            <td>Lycanroc</td>
+            <td>Rock</td>
+            <td>Vital Spirit</td>
+        </tr>
+        <tr>
+            <td>Cetitan</td>
+            <td>Ice</td>
+            <td>Slush Rush</td>
+        </tr>
+    </table>
+
+
+    <div class="container">
+        <!--Row with two equal columns-->
+        <div class="row">
+            <div class="col-md-6">Generation:</div>
+            <div class="col-md-6">8</div>
+        </div>
+
+        <!--Row with two columns divided in 1:2 ratio-->
+        <div class="row">
+            <div class="col-md-4">Generation:</div>
+            <div class="col-md-8">7</div>
+        </div>
+
+        <!--Row with two columns divided in 1:3 ratio-->
+        <div class="row">
+            <div class="col-md-3">Generation:</div>
+            <div class="col-md-9">9</div>
+        </div>
+    </div>
+
+    <script type="module" src="button.js"></script>
+    <button type="button" onclick="alert('I see you clicked me!!!')">Click here!</button>
+    <script type="module" src="colors.js"></script>
+    <button onclick="colorSwap(this)">
+        Now Check This Out
+    </button>
+    <script type="module" src="textAppear.js"></script>
+    <input type="text" id="userInput" placeholder="Enter your text here">
+    <p id="displayText"></p>
+    <script type="module" src="main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+/* Basic page styles */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	color: #222;
+	background: #f5f7fa;
+}
+
+header,
+main,
+footer {
+	width: min(1100px, 90%);
+	margin: 0 auto;
+}
+
+header {
+	padding: 2rem 0;
+	text-align: center;
+}
+
+h1,
+h2,
+h3 {
+	margin-top: 0;
+	color: #1f3a5f;
+}
+
+.card {
+	padding: 1.5rem;
+	margin-bottom: 1.5rem;
+	background: #fff;
+	border: 1px solid #e1e7ef;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+}
+
+button,
+.button {
+	display: inline-block;
+	padding: 0.65rem 1rem;
+	color: #fff;
+	background: #2563eb;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+button:hover,
+.button:hover {
+	background: #1d4ed8;
+}
+
+footer {
+	padding: 2rem 0;
+	color: #64748b;
+	text-align: center;
+}

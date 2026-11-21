@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Week 7 – Live D3 Bar Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    body { font-family: sans-serif; margin: 24px; }
+    #label { font-size: 18px; height: 24px; }
+  </style>
+</head>
+<body>
+  <h2>Hours of sleep this week (toy data)</h2>
+  <button id="update">New week</button>
+  <div id="label">Hover a bar</div>
+  <div id="chart"></div>
+
+  <script>
+    // ---------- STEP 1: data + SVG canvas ----------
+    const data = [
+      { day: "Mon", hours: 6.5 },
+      { day: "Tue", hours: 7.2 },
+      { day: "Wed", hours: 5.8 },
+      { day: "Thu", hours: 6.9 },
+      { day: "Fri", hours: 8.1 },
+      { day: "Sat", hours: 9.3 },
+      { day: "Sun", hours: 8.4 }
+    ];
+
+    const width = 600, height = 360;
+    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+    const innerW = width - margin.left - margin.right;
+    const innerH = height - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // ---------- STEP 2: scales (data -> pixels / colors) ----------
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.day))
+      .range([0, innerW])
+      .padding(0.2);
+
+    const y = d3.scaleLinear()
+      .domain([0, 10])
+      .range([innerH, 0]);           // flipped: SVG y grows downward
+
+    const color = d3.scaleSequential(d3.interpolateBlues)
+      .domain([0, 10]);
+
+    // ---------- STEP 4: axes ----------
+    g.append("g")
+      .attr("transform", `translate(0, ${innerH})`)
+      .call(d3.axisBottom(x));
+
+    g.append("g")
+      .call(d3.axisLeft(y));
+
+    // ---------- STEP 3 + 6: data join, wrapped in a function ----------
+    function render(data) {
+      g.selectAll("rect")
+        .data(data, d => d.day)                     // key = day
+        .join(enter => enter.append("rect")
+                .attr("y", innerH)                  // new bars start at the bottom
+                .attr("height", 0))
+          .attr("x", d => x(d.day))
+          .attr("width", x.bandwidth())
+          // ---------- STEP 5: interaction ----------
+          .on("mouseover", (event, d) => {
+            d3.select(event.currentTarget).attr("fill", "#9D2235");
+            d3.select("#label").text(`${d.day}: ${d.hours} hours`);
+          })
+          .on("mouseout", (event, d) => {
+            d3.select(event.currentTarget).attr("fill", color(d.hours));
+          })
+        .transition().duration(800)
+          .attr("y", d => y(d.hours))
+          .attr("height", d => innerH - y(d.hours))
+          .attr("fill", d => color(d.hours));
+    }
+
+    render(data);
+
+    // ---------- STEP 6: update with new data ----------
+    d3.select("#update").on("click", () => {
+      data.forEach(d => d.hours = +(4 + Math.random() * 5).toFixed(1));
+      render(data);
+    });
+  </script>
+</body>
+</html>

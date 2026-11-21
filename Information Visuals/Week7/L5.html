@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philadelphia Monthly High Temperatures</title>
+
+  <!-- D3.js library -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fb;
+      color: #243247;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #243247;
+    }
+
+    .chart-container {
+      max-width: 1000px;
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .bar {
+      transition: opacity 0.2s, fill 0.2s;
+      cursor: pointer;
+    }
+
+    .bar:hover {
+      opacity: 0.7;
+      stroke: #243247;
+      stroke-width: 2px;
+    }
+
+    .axis text {
+      font-size: 12px;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #aab4c0;
+    }
+
+    .value-label {
+      font-size: 12px;
+      font-weight: bold;
+      fill: #243247;
+      pointer-events: none;
+    }
+
+    .grid line {
+      stroke: #e3e8ef;
+      stroke-dasharray: 3 3;
+    }
+
+    .grid path {
+      display: none;
+    }
+
+    #info {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 15px;
+      min-height: 28px;
+    }
+
+    .legend {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Philadelphia's Monthly High Temperatures</h1>
+  <p>Explore how average high temperatures change throughout the year.</p>
+
+  <div class="chart-container">
+    <svg id="tempChart" width="900" height="500"></svg>
+
+    <div id="info">
+      Hover over a bar to explore a month!
+    </div>
+
+    <div class="legend">
+      <span style="color: #4575b4;">&#9632; Cooler</span>
+      &nbsp;&nbsp;
+      <span style="color: #ffffbf;">&#9632; Mild</span>
+      &nbsp;&nbsp;
+      <span style="color: #d73027;">&#9632; Warmer</span>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    const phillyTemp = [
+      { month: "Jan", high: 41 },
+      { month: "Feb", high: 44 },
+      { month: "Mar", high: 53 },
+      { month: "Apr", high: 65 },
+      { month: "May", high: 75 },
+      { month: "Jun", high: 84 },
+      { month: "Jul", high: 88 },
+      { month: "Aug", high: 86 },
+      { month: "Sep", high: 79 },
+      { month: "Oct", high: 68 },
+      { month: "Nov", high: 57 },
+      { month: "Dec", high: 46 }
+    ];
+
+    // SVG dimensions
+    const svg = d3.select("#tempChart");
+    const width = 900;
+    const height = 500;
+
+    const margin = {
+      top: 40,
+      right: 30,
+      bottom: 65,
+      left: 65
+    };
+
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+  
+    const chart = svg.append("g")
+      .attr("transform",
+        `translate(${margin.left},${margin.top})`);
+
+
+    const xScale = d3.scaleBand()
+      .domain(phillyTemp.map(d => d.month))
+      .range([0, chartWidth])
+      .padding(0.2);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, 100])
+      .range([chartHeight, 0]);
+
+
+    const colorScale = d3.scaleSequential()
+      .domain([40, 90])
+      .interpolator(d3.interpolateRdYlBu);
+
+    const temperatureColor = value =>
+      d3.interpolateRdYlBu(1 - (value - 40) / 50);
+
+
+    chart.append("g")
+      .attr("class", "grid")
+      .call(
+        d3.axisLeft(yScale)
+          .ticks(10)
+          .tickSize(-chartWidth)
+          .tickFormat("")
+      );
+
+    chart.append("g")
+      .attr("class", "axis")
+      .attr("transform", `translate(0,${chartHeight})`)
+      .call(d3.axisBottom(xScale));
+
+
+    chart.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(yScale).ticks(10));
+
+    chart.append("text")
+      .attr("x", chartWidth / 2)
+      .attr("y", chartHeight + 48)
+      .attr("text-anchor", "middle")
+      .style("font-size", "14px")
+      .text("Month");
+
+    chart.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -chartHeight / 2)
+      .attr("y", -45)
+      .attr("text-anchor", "middle")
+      .style("font-size", "14px")
+      .text("Average High Temperature (°F)");
+
+
+    chart.selectAll(".bar")
+      .data(phillyTemp)
+      .join("rect")
+      .attr("class", "bar")
+      .attr("x", d => xScale(d.month))
+      .attr("y", chartHeight)
+      .attr("width", xScale.bandwidth())
+      .attr("height", 0)
+      .attr("fill", d => temperatureColor(d.high))
+      .transition()
+      .duration(900)
+      .attr("y", d => yScale(d.high))
+      .attr("height", d => chartHeight - yScale(d.high));
+
+    chart.selectAll(".value-label")
+      .data(phillyTemp)
+      .join("text")
+      .attr("class", "value-label")
+      .attr("x", d => xScale(d.month) + xScale.bandwidth() / 2)
+      .attr("y", d => yScale(d.high) - 8)
+      .attr("text-anchor", "middle")
+      .text(d => `${d.high}°`);
+
+    chart.selectAll(".bar")
+      .on("mouseover", function(event, d) {
+        d3.select(this)
+          .attr("stroke", "#243247")
+          .attr("stroke-width", 2);
+
+        d3.select("#info")
+          .text(`${d.month}: ${d.high}°F average high`);
+      })
+      .on("mouseout", function() {
+        d3.select(this)
+          .attr("stroke", "none");
+
+        d3.select("#info")
+          .text("Hover over a bar to explore a month!");
+      });
+
+  </script>
+
+</body>
+</html>
